@@ -44,25 +44,6 @@ export const Object_crud_main = () => {
     setLastName(editObj.Last);
   };
 
-  // Function to add a child to a specific person
-  const handleAddChild = (parentId) => {
-    const childFirst = prompt("Enter Child's First Name:");
-    const childLast = prompt("Enter Child's Last Name:");
-
-    if (childFirst && childLast) {
-      setMyList((prevList) =>
-        prevList.map((person) =>
-          person.Id === parentId
-            ? {
-                ...person,
-                children: [...person.children, { Id: crypto.randomUUID(), First: childFirst, Last: childLast }],
-              }
-            : person
-        )
-      );
-    }
-  };
-
   return (
     <>
       <h3>Main</h3>
@@ -81,7 +62,7 @@ export const Object_crud_main = () => {
       />{" "}
       <br />
       <button onClick={handleSave}>{editId ? "Update" : "Save"}</button> <br />
-      {myList.length > 0 && <ListPersons myList={myList} setMyList={setMyList} hanleEdit={hanleEdit} handleAddChild={handleAddChild} />}
+      {myList.length > 0 && <ListPersons myList={myList} setMyList={setMyList} hanleEdit={hanleEdit}  />}
     </>
   );
 };
