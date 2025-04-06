@@ -139,7 +139,7 @@ export const ListPersons = ({ myList, setMyList, hanleEdit }) => {
             </tr>
           )}
 
-          {/* {activeParent === child.Id && (
+          {activeParent === child.Id && (
             <tr>
               <td colSpan="4">
                 <input
@@ -157,7 +157,7 @@ export const ListPersons = ({ myList, setMyList, hanleEdit }) => {
                 <button onClick={() => handleSaveChild(child.Id)}>Save Child</button>
               </td>
             </tr>
-          )} */}
+          )}
 
           {child.children.length > 0 &&
             renderChildren(child.children, serialNumber)}
