@@ -1,57 +1,92 @@
+
+
+// import * as React from 'react';
+// import { DataGrid } from '@mui/x-data-grid';
+// import Paper from '@mui/material/Paper';
+
+// export default function BasicTable({ myList }) {
+//   const columns = [
+//     { field: 'firstName', headerName: 'First name', width: 130 },
+//     { field: 'lastName', headerName: 'Last name', width: 130 },
+//     { field: 'gender', headerName: 'Gender', width: 130 },
+//     { field: 'role', headerName: 'Role', width: 130 },
+//     { field: 'courses', headerName: 'Courses', width: 200 },
+//     { field: 'myAddress', headerName: 'Address', width: 200 },
+//   ];
+
+//   const rows = myList.map((row, index) => ({
+//     id: index + 1, // ✅ Required
+//     firstName: row.firstName,
+//     lastName: row.lastName,
+//     gender: row.gender,
+//     role: row.role,
+//     courses: row.selectedCourses
+//       ? Object.entries(row.selectedCourses)
+//           .filter(([_, value]) => value)
+//           .map(([key]) => key.charAt(0).toUpperCase() + key.slice(1))
+//           .join(', ')
+//       : 'No courses',
+//       myAddress: row.myAddress
+//   }));
+
+//   const paginationModel = { page: 0, pageSize: 5 };
+
+//   return (
+//     <Paper sx={{ height: 400, width: '100%' }}>
+//       <DataGrid
+//         rows={rows}
+//         columns={columns}
+//         initialState={{ pagination: { paginationModel } }}
+//         pageSizeOptions={[5, 10]}
+//         checkboxSelection
+//         sx={{ border: 0 }}
+//       />
+//     </Paper>
+//   );
+// }
+
+
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 
-export default function BasicTable({myList}) {
-  console.log("child",myList);
+export default function BasicTable({ myList }) {
+  const columns = [
+    { field: 'firstName', headerName: 'First name', width: 130 },
+    { field: 'lastName', headerName: 'Last name', width: 130 },
+    { field: 'gender', headerName: 'Gender', width: 130 },
+    { field: 'role', headerName: 'Role', width: 130 },
+    { field: 'courses', headerName: 'Courses', width: 200 },
+    { field: 'myAddress', headerName: 'Address', width: 200 },
+  ];
+
+  const rows = myList.map((row, index) => ({
+    id: index + 1, // ✅ Required by DataGrid
+    firstName: row.firstName,
+    lastName: row.lastName,
+    gender: row.gender,
+    role: row.role,
+    courses: row.selectedCourses
+      ? Object.entries(row.selectedCourses)
+          .filter(([_, value]) => value)
+          .map(([key]) => key.charAt(0).toUpperCase() + key.slice(1))
+          .join(', ')
+      : 'No courses',
+    myAddress: row.myAddress || 'N/A', // Fallback if missing
+  }));
+
+  const paginationModel = { page: 0, pageSize: 5 };
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650,marginTop: 5 }} aria-label="simple table">
-        <TableHead>
-          <TableRow >
-            <TableCell sx = {{fontWeight:"bold", backgroundColor:'grey'}}>First Name</TableCell>
-            <TableCell sx = {{fontWeight:"bold", backgroundColor:'grey'}} >Last Name</TableCell>
-            <TableCell sx = {{fontWeight:"bold", backgroundColor:'grey'}} >Gender</TableCell>
-            <TableCell sx = {{fontWeight:"bold", backgroundColor:'grey'}} >ROle</TableCell>
-            <TableCell sx = {{fontWeight:"bold", backgroundColor:'grey'}} >Courses</TableCell>
-          
-          </TableRow>
-        </TableHead>
-        <TableBody >
-          {myList.map((row,index) => (
-            <TableRow
-               key={index}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell >{row.firstName}</TableCell>
-              <TableCell >{row.lastName}</TableCell>
-              <TableCell >{row.gender}</TableCell>
-              <TableCell >{row.role}</TableCell>
-
-              <TableCell>
-  {row.selectedCourses
-    ? Object.entries(row.selectedCourses)
-        .filter(([_, value]) => value)
-        .map(([key]) => key.charAt(0).toUpperCase() + key.slice(1))
-        .join(', ')
-    : 'No courses'}
-</TableCell>
-
-              
-            </TableRow>
-          ))}
-          
-        </TableBody>
-   
-      </Table>
-    </TableContainer>
-
-
+    <Paper sx={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{ pagination: { paginationModel } }}
+        pageSizeOptions={[5, 10]}
+        checkboxSelection
+        sx={{ border: 0 }}
+      />
+    </Paper>
   );
-
 }

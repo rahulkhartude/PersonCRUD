@@ -35,6 +35,10 @@ export const MUICompoent = () => {
     javascript: false,
     typescript: false,
   });
+  const [myAddress,setMyAddress] = useState("");
+  const handleAddress=(value)=>{
+    setMyAddress(value);
+  }
 
   const handleRole = (event) => {
     setRole(event.target.value);
@@ -69,10 +73,14 @@ export const MUICompoent = () => {
     setErrors(newErrors);
 
     if (valid) {
-      setList([...list, { firstName, lastName ,gender,role,selectedCourses }]);
+      setList([...list, { firstName, lastName ,gender,role,selectedCourses,myAddress }]);
       console.log("list",list);
       setFirstName('');
       setLastName('');
+      setGender('female');
+      setRole('');
+      setSelectedCourses({ react: true, javascript: false, typescript: false });
+      setMyAddress('');
     }
   };
   const handleGender =(value)=>{
@@ -194,6 +202,8 @@ export const MUICompoent = () => {
   minRows={3}
   placeholder="Minimum 3 rows"
   style={{ width: 200 }}
+  onChange={(e)=>handleAddress(e.target.value)}
+  value={myAddress}
 />
 </Box>
 
