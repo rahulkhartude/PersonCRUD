@@ -2,6 +2,10 @@
 
 
 import React, { useState } from 'react';
+import {
+  
+  FormHelperText
+} from '@mui/material';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -26,13 +30,13 @@ export const MUICompoent = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [list, setList] = useState([]);
-  const [errors, setErrors] = useState({ firstName: '', lastName: '' });
+  const [errors, setErrors] = useState({ firstName: '', lastName: '',courseValid:'' });
   const [isDuplicate, setDuplicate] = useState(false);
   const [gender ,setGender] = useState("female");
   const [role, setRole] = useState('');
   const [selectedCourses, setSelectedCourses] = useState({
-    react: true,
-    javascript: false,
+    react: false,
+    javascript: true,
     typescript: false,
   });
   const [myAddress,setMyAddress] = useState("");
@@ -46,7 +50,7 @@ export const MUICompoent = () => {
 
   const handleSave = () => {
     let valid = true;
-    const newErrors = { firstName: '', lastName: '' };
+    const newErrors = { firstName: '', lastName: '',courseValid : '' };
     setDuplicate(false); // reset duplicate flag
 
     if (!firstName.trim()) {
@@ -58,6 +62,15 @@ export const MUICompoent = () => {
       newErrors.lastName = 'Last name is required';
       valid = false;
     }
+
+      // ✅ Checkbox validation
+  const selectedCount = Object.values(selectedCourses).filter(Boolean).length;
+  if (selectedCount < 2) {
+    newErrors.courseValid = 'Please choose at least 2 courses';
+    
+  }
+
+  // setErrors(newErrors);
 
     const alreadyExists = list.some(
       (item) =>
@@ -79,7 +92,7 @@ export const MUICompoent = () => {
       setLastName('');
       setGender('female');
       setRole('');
-      setSelectedCourses({ react: true, javascript: false, typescript: false });
+      setSelectedCourses({ react: false, javascript: true, typescript: false });
       setMyAddress('');
     }
   };
@@ -89,6 +102,11 @@ export const MUICompoent = () => {
 
   const handleCourse=(e)=>{
     setSelectedCourses({...selectedCourses,[e.target.name] :e.target.checked})
+     let trueCount = Object.values(obj).filter(val => val === true).length;
+     if(trueCount<2){
+      setErrors.courseValid = 'choose min 2 course is required';
+      valid = false;
+     }
 
   }
 
@@ -189,10 +207,11 @@ export const MUICompoent = () => {
         Courses
       </FormLabel>
       <FormGroup>
-        <FormControlLabel control={<Checkbox  checked= {selectedCourses.react} onChange={(e)=>handleCourse(e)} name="react"  />}  label="React" />
-        <FormControlLabel required control={<Checkbox  checked = {selectedCourses.javascript} onChange={(e)=>handleCourse(e)} name="javascript" />}  label="JavaScript" />
+        <FormControlLabel required control={<Checkbox  checked= {selectedCourses.react} onChange={(e)=>handleCourse(e)} name="react"  />}  label="React" />
+        <FormControlLabel  control={<Checkbox  checked = {selectedCourses.javascript} onChange={(e)=>handleCourse(e)} name="javascript" />}  label="JavaScript" />
         <FormControlLabel  control={<Checkbox  checked = {selectedCourses.typescript} onChange={(e)=>handleCourse(e)} name='typescript'/>} label="TypeScript" />
       </FormGroup>
+      <FormHelperText sx={{color:"red"}}>{errors.courseValid}</FormHelperText>
     </FormControl>
     </Box>
 <Box>

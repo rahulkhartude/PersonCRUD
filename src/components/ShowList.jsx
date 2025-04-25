@@ -57,7 +57,27 @@ export default function BasicTable({ myList }) {
     { field: 'gender', headerName: 'Gender', width: 130 },
     { field: 'role', headerName: 'Role', width: 130 },
     { field: 'courses', headerName: 'Courses', width: 200 },
-    { field: 'myAddress', headerName: 'Address', width: 200 },
+    // { field: 'myAddress', headerName: 'Address', width: 200 },
+    {
+      field: 'myAddress',
+      headerName: 'Address',
+      width: 200,
+      renderCell: (params) => (
+        <Tooltip title={params.value || ''} arrow>
+          <Typography
+            noWrap
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              maxWidth: '100%',
+            }}
+          >
+            {params.value || 'N/A'}
+          </Typography>
+        </Tooltip>
+      ),
+    },
   ];
 
   const rows = myList.map((row, index) => ({
@@ -83,7 +103,7 @@ export default function BasicTable({ myList }) {
         rows={rows}
         columns={columns}
         initialState={{ pagination: { paginationModel } }}
-        pageSizeOptions={[5, 10]}
+        pageSizeOptions={[5,10]}
         checkboxSelection
         sx={{ border: 0 }}
       />
